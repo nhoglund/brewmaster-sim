@@ -1,0 +1,23 @@
+﻿{
+  "name": "BrewmasterSimulator",
+  "version": "0.0.0",
+  "description": "A World of Warcraft Brewmaster monk simulator",
+  "main": "Woban.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "heap": "~0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "C:\\\\Users\\\\Niklas\\\\Dropbox\\\\Programming\\\\Projects\\\\BrewmasterSimulator"
+  },
+  "author": "Niklas Höglund",
+  "license": "BSD",
+  "gitHead": "fadb541d6aaea6e8f49be0f89da29e6232d602d7"
+}
