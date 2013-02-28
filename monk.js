@@ -73,6 +73,9 @@ function monk (init) {
 			parry_chance += 0.05;
 		}
 	};
+
+	// Vengeance algorithm
+	// http://wow.joystiq.com/2012/08/07/vengeance-no-longer-capped-for-tanks/
 	
 	that.blackout_kick = function (target) {
 		stagger_modifier += 0.2;
