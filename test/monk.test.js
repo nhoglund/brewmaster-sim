@@ -29,7 +29,7 @@ describe('A Monk', function () {
 			};
 			var monk = Monk(init);
 			it('has 411479 health', function () {
-				assert.equal(monk.health(), 411479);
+				assert.equal(monk.max_health(), 411479);
 			});
 		});
 		describe('with 4182 haste rating', function () {
@@ -47,7 +47,7 @@ describe('A Monk', function () {
 			};
 			var monk = Monk(init);
 			it('has 424723 health', function () {
-				assert.equal(monk.health(), 424723);
+				assert.equal(monk.max_health(), 424723);
 			});
 		});
 		describe('with 23856 stamina', function () {
@@ -57,7 +57,7 @@ describe('A Monk', function () {
 			};
 			var monk = Monk(init);
 			it('has 480387 health', function () {
-				assert.equal(monk.health(), 480387);
+				assert.equal(monk.max_health(), 480387);
 			});
 		});
 		describe('with 3123 haste rating', function () {

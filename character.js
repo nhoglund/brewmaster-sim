@@ -32,7 +32,7 @@ var character = function (init)
 	stats.haste      = 1 + ratings.haste / 42500;
 	stats.parry      = ratings.parry     / 88500;
 	
-	return {attrs: init.attrs, ratings: ratings, stats: stats};
+	return {attrs: attrs, ratings: ratings, stats: stats};
 }
 
 exports.character = character;

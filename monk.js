@@ -36,6 +36,57 @@ function monk (init) {
 	that.ratings = ratings;
 	that.stats = stats;
 
+	function max_health () {
+		return Math.floor(146403 + attrs.stamina * 14);
+	};
+
+	function parry () {
+		var parry_chance = stats.parry;
+		if (swift_reflexes) {
+			parry_chance += 0.05;
+		}
+	};
+	
+	function dodge () {
+		return 0;
+	};
+
+	var vengeance = 0;
+	var vengeance_expires = 0;
+	var health = max_health();
+	
+	function update_vengeance () {
+		if (sim.time() >= vengeance_expiry) {
+			vengeance = 0;
+		}
+	};
+	
+	function damage(attacker, damage_taken) {
+		// Vengeance algorithm:
+		// http://wow.joystiq.com/2012/08/07/vengeance-no-longer-capped-for-tanks/
+		if (Math.random() < parry() + dodge()) {
+			// Avoid the strike
+			
+			if (attacker.level() >= level - 3) {
+				// Avoidance will not count against you. Avoiding an attack will extend
+				// the current Vengeance stack back to 20 sec (as if you were hit again
+				// for the same DPS).
+				vengeance_expiry = sim.time() + 20;	
+			}
+		}
+		else {
+			// TODO: does this run if the first boss attack is avoided?
+			var equilibrium = damage_taken / 1.5;			
+			if (vengeance < equilibrium / 2) {
+				vengeance = equilibrium / 2;
+			}
+	
+			vengeance = 0.05 * damage_taken + vengeance * (vengeance_expires - sim.time()) / 20;
+		}
+		
+		sim.in(20, update_vengeance);
+	};
+
 	that.mastery = function () {
 		return Math.floor((4 + ratings.mastery * 0.000835) * 100) / 100;
 	}
@@ -47,9 +98,7 @@ function monk (init) {
 		return base + from_mastery + stagger_modifier;
 	};
 
-	that.health = function () {
-		return Math.floor(146403 + attrs.stamina * 14);
-	};
+	that.max_health = max_health;
 	
 	that.haste = function () {
 		var factor = stats.haste;
@@ -65,17 +114,12 @@ function monk (init) {
 		var from_agi = crit_from_agility(agi);
 		var sum = from_rating + from_agi;
 		return sum;
+	};	that.max_health = function () {
+		return Math.floor(146403 + attrs.stamina * 14);
 	};
 
-	that.parry = function () {
-		var parry_chance = stats.parry;
-		if (swift_reflexes) {
-			parry_chance += 0.05;
-		}
-	};
-
-	// Vengeance algorithm
-	// http://wow.joystiq.com/2012/08/07/vengeance-no-longer-capped-for-tanks/
+	that.parry = parry;
+	that.dodge = dodge;
 	
 	that.blackout_kick = function (target) {
 		stagger_modifier += 0.2;
