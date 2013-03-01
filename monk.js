@@ -61,13 +61,13 @@ function monk (init) {
 		}
 	};
 	
-	function damage(attacker, damage_taken) {
+	function damage(attacker, attack) {
 		// Vengeance algorithm:
 		// http://wow.joystiq.com/2012/08/07/vengeance-no-longer-capped-for-tanks/
 		if (Math.random() < parry() + dodge()) {
 			// Avoid the strike
 			
-			if (attacker.level() >= level - 3) {
+			if (attacker.level >= level - 3) {
 				// Avoidance will not count against you. Avoiding an attack will extend
 				// the current Vengeance stack back to 20 sec (as if you were hit again
 				// for the same DPS).
@@ -76,14 +76,15 @@ function monk (init) {
 		}
 		else {
 			// TODO: does this run if the first boss attack is avoided?
-			var equilibrium = damage_taken / 1.5;			
+			var attack_speed = attack.special ? attacker.auto_attack_speed : 60;
+			var equilibrium = attack.damage / attack_speed;
 			if (vengeance < equilibrium / 2) {
 				vengeance = equilibrium / 2;
 			}
-	
-			vengeance = 0.05 * damage_taken + vengeance * (vengeance_expires - sim.time()) / 20;
+
+			vengeance = 0.018 * attack.damage + vengeance * (vengeance_expires - sim.time()) / 20;
 		}
-		
+
 		sim.in(20, update_vengeance);
 	};
 
