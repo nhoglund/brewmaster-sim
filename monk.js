@@ -118,6 +118,33 @@ function monk (init) {
 		sim.in(20, update_vengeance);
 	};
 
+	function mastery () {
+		return Math.floor((4 + ratings.mastery * 0.000835) * 100) / 100;
+	}
+
+	// Stagger amount (0 - 1)
+	function stagger () {
+		var base = 0.2;
+		var from_mastery = Math.floor(mastery() * 10) / 1000;
+		return base + from_mastery + stagger_modifier;
+	};
+
+	function crit () {
+		var from_rating = stats.crit;
+		var agi = attrs.agility;
+		var from_agi = crit_from_agility(agi);
+		var sum = from_rating + from_agi;
+		return sum;
+	};
+	
+	blackout_kick = function (target) {
+		stagger_modifier += 0.2;
+		parry += 0.2;
+
+		sim.in(6, function () {stagger_modifier -= 0.2;});
+		sim.in(6, function () {parry -= 0.2;});
+	};
+
 	var that = {
 		stance: init.stance,
 		attrs: attrs,
@@ -127,35 +154,14 @@ function monk (init) {
 		haste: haste,
 		parry: parry,
 		dodge: dodge,
-		gotox_chance: gotox_chance
+		gotox_chance: gotox_chance,
+		mastery: mastery,
+		stagger: stagger,
+		crit: crit,
+		blackout_kick: blackout_kick
 	};
 
-	that.mastery = function () {
-		return Math.floor((4 + ratings.mastery * 0.000835) * 100) / 100;
-	}
 
-	// Stagger amount (0 - 1)
-	that.stagger = function () {
-		var base = 0.2;
-		var from_mastery = Math.floor(that.mastery() * 10) / 1000;
-		return base + from_mastery + stagger_modifier;
-	};
-
-	that.crit = function () {
-		var from_rating = that.stats.crit;
-		var agi = that.attrs.agility;
-		var from_agi = crit_from_agility(agi);
-		var sum = from_rating + from_agi;
-		return sum;
-	};
-	
-	that.blackout_kick = function (target) {
-		stagger_modifier += 0.2;
-		parry += 0.2;
-
-		sim.in(6, function () {stagger_modifier -= 0.2;});
-		sim.in(6, function () {parry -= 0.2;});
-	};
 
 	return that;
 }
