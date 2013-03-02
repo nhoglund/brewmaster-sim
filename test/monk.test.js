@@ -60,10 +60,16 @@ describe('A Monk', function () {
 				assert.equal(monk.max_health(), 480387);
 			});
 		});
-		describe('with 3123 haste rating', function () {
-			var monk = Monk({ratings: {haste: 3123}});
+		describe('with 3123 haste rating and weapon speed 3.6', function () {
+			var monk = Monk({ratings: {haste: 3123}, weapon_speed: 3.6});
 			it('has 50.29% haste', function () {
 				assert.approx(monk.haste(), 1.5029);
+			});
+			it('has a 10% chance to spawn a Gift of the Ox orb when doing a special attack', function () {	
+				assert.equal(monk.gotox_chance(true, false), 0.1);
+			});
+			it('has a 21.6% chance to spawn a Gift fo the Ox orb when doing white damage', function () {
+				assert.equal(monk.gotox_chance(false, false), 0.216);
 			});
 		});
 		describe('with 14046 agility and 4901 crit rating', function () {
