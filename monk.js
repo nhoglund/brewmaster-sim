@@ -5,6 +5,17 @@ var stance = {
 	FIERCE_TIGER: "Stance of the Fierce Tiger"
 };
 
+// Calculates the size of the shield guard gives
+function guard_size(attack_power) {
+	// there appears to be a non-linearity somewhere around 30k attack power
+	if (attack_power < 30000) {
+		return 14000 + 2.5 * attack_power;
+	}
+	else {
+		return 19639 + 2.72 * attack_power;
+	}
+}
+
 function create_monk (init) {
 	init = init || {};
 	var sim = init.sim;
@@ -57,7 +68,7 @@ function create_monk (init) {
 	}
 
 	function gotox_heal_size (crit) {
-		return (crit ? 2 : 1 ) * (4926 +  attack_power() * 0.25);
+		return (crit ? 2 : 1 ) * (4926 +  0.25 * attack_power());
 	}
 
 	function deal_damage (special, tiger_strike) {
@@ -156,7 +167,7 @@ function create_monk (init) {
 		sim.in(6, function () {parry -= 0.2;});
 	};
 
-	var that = {
+	return {
 		stance: init.stance,
 		attrs: attrs,
 		ratings: ratings,
@@ -171,13 +182,11 @@ function create_monk (init) {
 		crit: crit,
 		blackout_kick: blackout_kick,
 		attack_power: attack_power,
-		gotox_heal_size: gotox_heal_size
+		gotox_heal_size: gotox_heal_size,
+		guard_size: function () {return guard_size(attack_power());}
 	};
-
-
-
-	return that;
 }
 
-exports.create_monk = create_monk;
 exports.stance = stance;
+exports.guard_size = guard_size;
+exports.create_monk = create_monk;

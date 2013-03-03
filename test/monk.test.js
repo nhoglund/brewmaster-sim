@@ -4,8 +4,8 @@ var monk_module = require('../monk');
 var create_monk = monk_module.create_monk;
 var stance = monk_module.stance;
 
-assert.approx = function (a, b) {
-	assert((Math.abs(a - b) / Math.abs(b)) < 0.001, "" + a + " is approximately " + b);
+assert.approx = function (a, b, n) {
+	assert((Math.abs(a - b) / Math.abs(b)) < Math.pow(0.1, n ? n : 3), "" + a + " is approximately " + b);
 }
 
 describe('A Monk', function () {
@@ -105,6 +105,18 @@ describe('A Monk', function () {
 			it('is healed 9917 from non-critical Gift of the Ox orbs', function () {
 				// tooltip says 14957, but I get 9917, it appears the scaling factor has changed to 0.25 * AP
 				assert.approx(monk.gotox_heal_size(), 9917);
+			});
+		});
+		describe('with 13604 agility', function () {
+			var monk = create_monk({attrs: {agility: 13604}});
+			it('guards for 82199', function () {
+				assert.approx(monk.guard_size(), 82199, 2);
+			});
+		});
+		describe('with 18295 agility', function () {
+			var monk = create_monk({attrs: {agility: 18295}});
+			it('guards for 120048', function () {
+				assert.approx(monk.guard_size(), 120048);
 			});
 		});
 	});
