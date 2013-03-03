@@ -1,5 +1,4 @@
-var character = function (init)
-{
+function create_character (init) {
 	init = init || {};
 
 	var attrs = init.attrs || {};
@@ -35,4 +34,4 @@ var character = function (init)
 	return {attrs: attrs, ratings: ratings, stats: stats};
 }
 
-exports.character = character;
+exports.create_character = create_character;

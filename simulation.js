@@ -1,6 +1,6 @@
 var Heap = require('heap');
 
-function simulation() {
+function create_simulation() {
 	var that = {}
 	var current_time = 0;
 	var pending_actions = new Heap(function (a, b) {
@@ -35,4 +35,4 @@ function simulation() {
 	return that;
 }
 
-exports.simulation = simulation;
+exports.create_simulation = create_simulation;

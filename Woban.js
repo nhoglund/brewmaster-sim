@@ -1,4 +1,4 @@
-﻿var monk = require('./monk').monk;
+﻿var create_monk = require('./monk').create_monk;
 
 var attrs = {
 	strength: 183,
@@ -19,4 +19,4 @@ var ratings = {
 	mastery: 2436
 };
 
-exports.Woban = monk({attrs: attrs, ratings: ratings});
+exports.Woban = create_monk({attrs: attrs, ratings: ratings});

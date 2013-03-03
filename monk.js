@@ -1,15 +1,15 @@
-var character = require('./character').character;
+var create_character = require('./character').create_character;
 
 var stance = {
 	STURDY_OX: "Stance of the Sturdy Ox",
 	FIERCE_TIGER: "Stance of the Fierce Tiger"
 };
 
-function monk (init) {
+function create_monk (init) {
 	init = init || {};
 	var sim = init.sim;
 
-	var ch = character(init);
+	var ch = create_character(init);
 	var attrs = ch.attrs;
 	var ratings = ch.ratings;
 	var stats = ch.stats;
@@ -166,5 +166,5 @@ function monk (init) {
 	return that;
 }
 
-exports.monk = monk;
+exports.create_monk = create_monk;
 exports.stance = stance;

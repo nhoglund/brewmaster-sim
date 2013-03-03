@@ -1,8 +1,8 @@
 var assert = require('assert');
-var monk_class = require('../monk');
+var monk_module = require('../monk');
 
-var Monk = monk_class.monk;
-var stance = monk_class.stance;
+var create_monk = monk_module.create_monk;
+var stance = monk_module.stance;
 
 assert.approx = function (a, b) {
 	assert((Math.abs(a - b) / Math.abs(b)) < 0.001, "" + a + " is approximately " + b);
@@ -10,13 +10,13 @@ assert.approx = function (a, b) {
 
 describe('A Monk', function () {
 	describe('with no stats', function () {
-		var monk = Monk();
+		var monk = create_monk();
 		it('has 24% stagger', function () {
 			assert.approx(monk.stagger(), 0.24);
 		});
 	});
 	describe('with 2421 mastery rating', function () {
-		var monk = Monk({ratings: {mastery: 2421}});
+		var monk = create_monk({ratings: {mastery: 2421}});
 		it('has 6.02 mastery', function () {
 			assert.equal(monk.mastery(), 6.02);
 		});
@@ -27,13 +27,13 @@ describe('A Monk', function () {
 			init.attrs = {
 				stamina: 18934
 			};
-			var monk = Monk(init);
+			var monk = create_monk(init);
 			it('has 411479 health', function () {
 				assert.equal(monk.max_health(), 411479);
 			});
 		});
 		describe('with 4182 haste rating', function () {
-			var monk = Monk({ratings: {haste: 4182}});
+			var monk = create_monk({ratings: {haste: 4182}});
 			it('has 53.78% haste', function () {
 				assert.approx(monk.haste(), 1.5378);
 			});
@@ -45,7 +45,7 @@ describe('A Monk', function () {
 			init.attrs = {
 				stamina: 19880
 			};
-			var monk = Monk(init);
+			var monk = create_monk(init);
 			it('has 424723 health', function () {
 				assert.equal(monk.max_health(), 424723);
 			});
@@ -55,13 +55,13 @@ describe('A Monk', function () {
 			init.attrs = {
 				stamina: 23856
 			};
-			var monk = Monk(init);
+			var monk = create_monk(init);
 			it('has 480387 health', function () {
 				assert.equal(monk.max_health(), 480387);
 			});
 		});
 		describe('with 3123 haste rating and weapon speed 3.6', function () {
-			var monk = Monk({ratings: {haste: 3123}, weapon_speed: 3.6});
+			var monk = create_monk({ratings: {haste: 3123}, weapon_speed: 3.6});
 			it('has 50.29% haste', function () {
 				assert.approx(monk.haste(), 1.5029);
 			});
@@ -73,13 +73,13 @@ describe('A Monk', function () {
 			});
 		});
 		describe('with 14046 agility and 4901 crit rating', function () {
-			var monk = Monk({attrs: {agility: 14046}, ratings: {crit: 4901}});
+			var monk = create_monk({attrs: {agility: 14046}, ratings: {crit: 4901}});
 			it('has 26.80% crit chance', function () {
 				assert.approx(monk.crit(), 0.2680);
 			});
 		});
 		describe('with 13378 agility and 4901 crit rating', function () {
-			var monk = Monk({attrs: {agility: 13378}, ratings: {crit: 4901}});
+			var monk = create_monk({attrs: {agility: 13378}, ratings: {crit: 4901}});
 			it('has 26.27% crit chance', function () {
 				assert.approx(monk.crit(), 0.2627);
 			});
