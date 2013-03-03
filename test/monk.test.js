@@ -84,5 +84,28 @@ describe('A Monk', function () {
 				assert.approx(monk.crit(), 0.2627);
 			});
 		});
+		describe('with 14116 agility', function () {
+			var monk = create_monk({attrs: {agility: 14116}});
+			it('has 28565 attack power', function () {
+				assert.equal(monk.attack_power(), 28565);
+			});
+			it('is healed 12067 from non-critical Gift of the Ox orbs', function () {
+				// tooltip says 19279, but I get 12067, it appears the scaling factor has changed to 0.25 * AP
+				assert.approx(monk.gotox_heal_size(), 12067);
+			});
+		});
+		describe('with 14645 agility', function () {
+			var monk = create_monk({attrs: {agility: 14645}});
+			it('has 29623 attack power', function () {
+				assert.equal(monk.attack_power(), 29623);
+			});
+		});
+		describe('with 9815 agility', function () {
+			var monk = create_monk({attrs: {agility: 9815}});
+			it('is healed 9917 from non-critical Gift of the Ox orbs', function () {
+				// tooltip says 14957, but I get 9917, it appears the scaling factor has changed to 0.25 * AP
+				assert.approx(monk.gotox_heal_size(), 9917);
+			});
+		});
 	});
 });

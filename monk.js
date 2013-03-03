@@ -14,6 +14,8 @@ function create_monk (init) {
 	var ratings = ch.ratings;
 	var stats = ch.stats;
 
+	var agility = attrs.agility;
+
 	var leather_specialization = true;
 	var swift_reflexes = true;
 	var two_handed_weapon = true;
@@ -47,6 +49,15 @@ function create_monk (init) {
 		else {
 			return (two_handed_weapon ? 0.06 : 0.03) * weapon_speed_naked;
 		}
+	}
+
+	function attack_power () {
+		return 353 +		// where does this come from?
+			   (agility * 2) - 20;
+	}
+
+	function gotox_heal_size (crit) {
+		return (crit ? 2 : 1 ) * (4926 +  attack_power() * 0.25);
 	}
 
 	function deal_damage (special, tiger_strike) {
@@ -158,7 +169,9 @@ function create_monk (init) {
 		mastery: mastery,
 		stagger: stagger,
 		crit: crit,
-		blackout_kick: blackout_kick
+		blackout_kick: blackout_kick,
+		attack_power: attack_power,
+		gotox_heal_size: gotox_heal_size
 	};
 
 
