@@ -6,14 +6,8 @@ var stance = {
 };
 
 // Calculates the size of the shield guard gives
-function guard_size(attack_power) {
-	// there appears to be a non-linearity somewhere around 30k attack power
-	if (attack_power < 30000) {
-		return 14000 + 2.5 * attack_power;
-	}
-	else {
-		return 19639 + 2.72 * attack_power;
-	}
+function guard_size(attack_power, tiger_power) {
+	return (14014 + 2.436 * attack_power) * (tiger_power ? 1.15 : 1);
 }
 
 function crit_from_agility (agi) {
@@ -183,7 +177,6 @@ function create_monk (init) {
 		blackout_kick: blackout_kick,
 		attack_power: attack_power,
 		gotox_heal_size: gotox_heal_size,
-		guard_size: function () {return guard_size(attack_power());}
 	};
 }
 

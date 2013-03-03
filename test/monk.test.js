@@ -107,16 +107,20 @@ describe('A Monk', function () {
 				assert.approx(monk.gotox_heal_size(), 9917);
 			});
 		});
-		describe('with 13604 agility', function () {
-			var monk = create_monk({attrs: {agility: 13604}});
-			it('guards for 82199', function () {
-				assert.approx(monk.guard_size(), 82199, 2);
+		describe('with 33587 attack power', function () {
+			it('guards for 96518 (without tiger power)', function () {
+				assert.approx(monk_module.guard_size(33587, false), 96518, 2);
+			});
+			it('guards for 110996 (with tiger power)', function () {
+				assert.approx(monk_module.guard_size(33587, true), 110996, 2);
 			});
 		});
-		describe('with 18295 agility', function () {
-			var monk = create_monk({attrs: {agility: 18295}});
-			it('guards for 120048', function () {
-				assert.approx(monk.guard_size(), 120048);
+		describe('with 42969 attack power', function () {
+			it('guards for 118708 (without tiger power)', function () {
+				assert.approx(monk_module.guard_size(42969, false), 118708, 2);
+			});
+			it('guards for 136514 (with tiger power)', function () {
+				assert.approx(monk_module.guard_size(42969, true), 136514, 2);
 			});
 		});
 	});
