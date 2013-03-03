@@ -16,6 +16,15 @@ function guard_size(attack_power) {
 	}
 }
 
+function crit_from_agility (agi) {
+	var x1 = 13378;
+	var x2 = 14046;
+	var y1 = 0.1810;
+	var y2 = 0.1863;
+	var base = ((x2 * y1) - (x1 * y2)) / (x2 - x1);
+	return agi * (y1 - base) / x1 + base;
+};
+
 function create_monk (init) {
 	init = init || {};
 	var sim = init.sim;
@@ -48,6 +57,15 @@ function create_monk (init) {
 
 	var gotox_orbs = 0;
 
+	function attack_power () {
+		return 353 +		// where does this come from?
+			   (agility * 2) - 20;
+	}
+
+	function gotox_heal_size (crit) {
+		return (crit ? 2 : 1 ) * (4926 +  0.25 * attack_power());
+	}
+
 	// what is the chance from a damaging attack to spawn a Gift of the Ox orb?
 	function gotox_chance (special, 		// is it a special attack?
 						   tiger_strike)	// is it a tiger strike?
@@ -62,15 +80,6 @@ function create_monk (init) {
 		}
 	}
 
-	function attack_power () {
-		return 353 +		// where does this come from?
-			   (agility * 2) - 20;
-	}
-
-	function gotox_heal_size (crit) {
-		return (crit ? 2 : 1 ) * (4926 +  0.25 * attack_power());
-	}
-
 	function deal_damage (special, tiger_strike) {
 		if (Math.random() < gotox_chance(special, tiger_strike)) {
 			gotox_orbs++;
@@ -78,15 +87,6 @@ function create_monk (init) {
 	}
 	
 	var stagger_modifier = 0;
-
-	function crit_from_agility (agi) {
-		var x1 = 13378;
-		var x2 = 14046;
-		var y1 = 0.1810;
-		var y2 = 0.1863;
-		var base = ((x2 * y1) - (x1 * y2)) / (x2 - x1);
-		return agi * (y1 - base) / x1 + base;
-	};
 
 	function max_health () {
 		return Math.floor(146403 + attrs.stamina * 14);
@@ -159,7 +159,7 @@ function create_monk (init) {
 		return sum;
 	};
 	
-	blackout_kick = function (target) {
+	function blackout_kick (target) {
 		stagger_modifier += 0.2;
 		parry += 0.2;
 
